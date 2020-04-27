@@ -42,15 +42,17 @@ Promise.all(seasonData)
       teams.forEach(results => {
         const name = results['home-away'];
         delete results['home-away'];
-        if (!DATA[name]) {
-          const shortName = Object.keys(results).find(sn => !results[sn]);
-          DATA[name] = { shortName, seasons: [], results: {} };
+        const shortName = Object.keys(results).find(sn => !results[sn]);
+        if (!DATA[shortName]) {
+          DATA[shortName] = { name, seasons: [], results: {} };
         }
-        DATA[name].seasons.push(year);
-        DATA[name].results[year] = formatResults(results);
+        DATA[shortName].seasons.push(year);
+        DATA[shortName].results[year] = formatResults(results);
       });
     });
   })
   .finally(() => {
-    console.table(DATA);
+    const sorted = [];
+    Object.keys(DATA).sort().forEach(shortName => sorted[shortName] = DATA[shortName]);
+    console.table(sorted);
   });
