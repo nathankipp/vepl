@@ -1,8 +1,9 @@
 import React from 'react';
+import './App.sass';
 
 function App() {
   return (
-    <div className="App">
+    <div className="has-text-info">
       The future home of VEPL
     </div>
   );
