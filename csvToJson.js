@@ -1,8 +1,6 @@
 const csv = require('csv-parser')
 const fs = require('fs')
 
-const first = 1993;
-const last = 2018;
 const DATA = {};
 
 function getSeason(year) {
@@ -31,6 +29,8 @@ function formatResults(results) {
   }, {});
 }
 
+const first = 1993;
+const last = 2018;
 const seasonData = [];
 for(let year = first; year < last; year++) {
   seasonData.push(getSeason(year));
@@ -44,15 +44,10 @@ Promise.all(seasonData)
         delete results['home-away'];
         if (!DATA[name]) {
           const shortName = Object.keys(results).find(sn => !results[sn]);
-          DATA[name] = {
-            shortName,
-            seasons: [year],
-            results: { [year]: formatResults(results) }
-          };
-        } else {
-          DATA[name].seasons.push(year);
-          DATA[name].results[year] = formatResults(results);
+          DATA[name] = { shortName, seasons: [], results: {} };
         }
+        DATA[name].seasons.push(year);
+        DATA[name].results[year] = formatResults(results);
       });
     });
   })
