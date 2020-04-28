@@ -44,7 +44,7 @@ Promise.all(seasonData)
         delete results['home-away'];
         const shortName = Object.keys(results).find(sn => !results[sn]);
         if (!DATA[shortName]) {
-          DATA[shortName] = { name, seasons: [], results: {} };
+          DATA[shortName] = { name, shortName, seasons: [], results: {} };
         }
         DATA[shortName].seasons.push(year);
         DATA[shortName].results[year] = formatResults(results);
@@ -52,8 +52,8 @@ Promise.all(seasonData)
     });
   })
   .finally(() => {
-    const sorted = {};
-    Object.keys(DATA).sort().forEach(shortName => sorted[shortName] = DATA[shortName]);
-    fs.writeFileSync('./data.json', JSON.stringify(sorted, null, 2) , 'utf-8');
-    console.table(sorted);
+    const a = [];
+    Object.keys(DATA).sort().forEach(shortName => a.push(DATA[shortName]));
+    fs.writeFileSync('./data.json', JSON.stringify(a, null, 2) , 'utf-8');
+    console.table(a);
   });
