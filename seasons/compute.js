@@ -1,12 +1,12 @@
-const csv = require('csv-parser')
-const fs = require('fs')
+const csv = require('csv-parser');
+const fs = require('fs');
 
 const DATA = {};
 
 function getSeason(year) {
   const teams = [];
   return new Promise(resolve => {
-    fs.createReadStream(`./seasons/${year}.csv`)
+    fs.createReadStream(`./${year}.csv`)
       .pipe(csv())
       .on('data', (data) => {
         teams.push(data);
@@ -52,7 +52,8 @@ Promise.all(seasonData)
     });
   })
   .finally(() => {
-    const sorted = [];
+    const sorted = {};
     Object.keys(DATA).sort().forEach(shortName => sorted[shortName] = DATA[shortName]);
+    fs.writeFileSync('./data.json', JSON.stringify(sorted, null, 2) , 'utf-8');
     console.table(sorted);
   });
