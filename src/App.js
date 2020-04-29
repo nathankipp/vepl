@@ -1,44 +1,77 @@
 import React from 'react';
-import './App.scss';
+import TeamCard from './TeamCard.js';
 
 import data from './seasons/data.json';
-import badges from './badges';
+const teams = data.map(({ name, shortName, seasons }) => ({
+  name,
+  shortName,
+  seasons
+}));
 
-const TeamCard = ({ team, selected, disabled }) => {
-  const { name, shortName, seasons } = team;
-  const sel = selected ? 'selected' : '';
-  const dis = disabled ? 'disabled' : '';
-  return (
-    <div className={`box team-card ${sel} ${dis}`}>
-      <img src={badges[shortName]} alt={name} />
-      <div className="content">
-        <h6>{name}</h6>
-        <p className="is-size-7">{seasons.join(', ')}</p>
-      </div>
-    </div>
-  );
-}
+class App extends React.Component {
+  state = {
+    teams,
+    selectedTeams: []
+  };
 
-function App() {
-  return (
-    <div className="columns">
+  clickTeam = (team) => {
+    const { selectedTeams } = this.state;
+    const teams = new Set(selectedTeams);
+    if (teams.has(team)) {
+      teams.delete(team);
+    } else {
+      teams.add(team);
+    }
+    this.setState({ selectedTeams: Array.from(teams) });
+  }
+
+  render() {
+
+    const { teams, selectedTeams } = this.state;
+    const isSelected = team => selectedTeams.includes(team.shortName);
+
+    let activeSeasons = [];
+    teams
+      .filter(isSelected)
+      .forEach(team => {
+        if (activeSeasons.length === 0) {
+          activeSeasons = team.seasons;
+        } else {
+          activeSeasons = activeSeasons.filter(season => team.seasons.includes(season));
+        }
+      });
+    const playedAllActiveSeasons = seasons =>
+      activeSeasons.length === 0 || activeSeasons.filter(year => seasons.includes(year)).length;
+
+    return (
+      <div className="columns">
       <section className="section column is-7">
+        <h3 className="is-size-3">Seasons in play</h3>
+        <p>{activeSeasons.join(', ')}</p>
         <h3 className="is-size-3">Table</h3>
+        <pre>{selectedTeams.map(shortName => teams.find(t => t.shortName === shortName).name).join('\n')}</pre>
       </section>
       <section className="section column is-5 teams">
-        <h3 className="is-size-3">Choose Teams</h3>
-        {
-          data.map((team) => (
+      <h3 className="is-size-3">Choose Teams</h3>
+      {
+        teams.map((team) => {
+          const selected = isSelected(team);
+          const disabled = !playedAllActiveSeasons(team.seasons);
+          return (
             <TeamCard
+              key={team.shortName}
               team={team}
-              selected={team.shortName === 'BHA'}
-              disabled={team.shortName.match(/AST|BAR/)}
+              click={this.clickTeam}
+              selected={selected}
+              disabled={disabled}
             />
-          ))
-        }
+          );
+        })
+      }
       </section>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
