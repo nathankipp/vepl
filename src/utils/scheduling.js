@@ -20,3 +20,37 @@ export function scheduleMatches(TEAMS) {
 
   return home.concat(away);
 }
+
+export function getEligibleSeasons(data, selectedTeams) {
+  let activeSeasons = [];
+
+  data
+    .filter(team => selectedTeams.includes(team.shortName))
+    .forEach(team => {
+      if (activeSeasons.length === 0) {
+        activeSeasons = team.seasons;
+      } else {
+        activeSeasons = activeSeasons.filter(season => team.seasons.includes(season));
+      }
+    });
+
+  return activeSeasons;
+}
+
+export function buildResults(data, years) {
+  return data.reduce((acc, team) => {
+    const home = team.shortName;
+
+    for (let year in team.results) {
+      year = String(year);
+      if (!acc[year]) {
+        acc[year] = {};
+      }
+      for (const away in team.results[year]) {
+        acc[year][`${home}${away}`] = team.results[year][away];
+      }
+    }
+
+    return acc;
+  }, {});
+}

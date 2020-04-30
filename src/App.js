@@ -1,54 +1,39 @@
 import React from 'react';
 import TeamCard from './TeamCard.js';
-import { scheduleMatches } from './utils/scheduling';
+import { scheduleMatches, getEligibleSeasons } from './utils/scheduling';
 
 import data from './seasons/data.json';
-const teams = data.map(({ name, shortName, seasons }) => ({
-  name,
-  shortName,
-  seasons
-}));
 
 class App extends React.Component {
   state = {
-    teams,
+    teams: data,
     selectedTeams: [],
+    activeSeasons: [],
     fixtures: []
   };
 
   clickTeam = (team) => {
-    const { selectedTeams: selected } = this.state;
+    const { teams, selectedTeams: selected } = this.state;
 
-    const teams = new Set(selected);
-    if (teams.has(team)) {
-      teams.delete(team);
+    let selectedTeams = new Set(selected);
+    if (selectedTeams.has(team)) {
+      selectedTeams.delete(team);
     } else {
-      teams.add(team);
+      selectedTeams.add(team);
     }
-
-    const selectedTeams = Array.from(teams);
+    selectedTeams = Array.from(selectedTeams);
 
     this.setState({
       selectedTeams,
+      activeSeasons: getEligibleSeasons(teams, selectedTeams),
       fixtures: scheduleMatches(selectedTeams)
     });
   }
 
   render() {
+    const { teams, selectedTeams, activeSeasons, fixtures } = this.state;
 
-    const { teams, selectedTeams, fixtures } = this.state;
     const isSelected = team => selectedTeams.includes(team.shortName);
-
-    let activeSeasons = [];
-    teams
-      .filter(isSelected)
-      .forEach(team => {
-        if (activeSeasons.length === 0) {
-          activeSeasons = team.seasons;
-        } else {
-          activeSeasons = activeSeasons.filter(season => team.seasons.includes(season));
-        }
-      });
     const playedAllActiveSeasons = seasons =>
       activeSeasons.length === 0 || activeSeasons.filter(year => seasons.includes(year)).length;
 
@@ -64,7 +49,7 @@ class App extends React.Component {
         <h3 className="is-size-3">Schedule</h3>
         {fixtures.map(
           (week, i) => (
-            <pre>
+            <pre key={`week${i}`}>
               <b>Week {`${i+1}`}</b><br />
               {week.map(teams => `${teams[0]} v ${teams[1]}\n`)}
             </pre>
