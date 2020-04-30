@@ -1,5 +1,6 @@
 import React from 'react';
 import TeamCard from './TeamCard.js';
+import { scheduleMatches } from './utils/scheduling';
 
 import data from './seasons/data.json';
 const teams = data.map(({ name, shortName, seasons }) => ({
@@ -11,23 +12,31 @@ const teams = data.map(({ name, shortName, seasons }) => ({
 class App extends React.Component {
   state = {
     teams,
-    selectedTeams: []
+    selectedTeams: [],
+    fixtures: []
   };
 
   clickTeam = (team) => {
-    const { selectedTeams } = this.state;
-    const teams = new Set(selectedTeams);
+    const { selectedTeams: selected } = this.state;
+
+    const teams = new Set(selected);
     if (teams.has(team)) {
       teams.delete(team);
     } else {
       teams.add(team);
     }
-    this.setState({ selectedTeams: Array.from(teams) });
+
+    const selectedTeams = Array.from(teams);
+
+    this.setState({
+      selectedTeams,
+      fixtures: scheduleMatches(selectedTeams)
+    });
   }
 
   render() {
 
-    const { teams, selectedTeams } = this.state;
+    const { teams, selectedTeams, fixtures } = this.state;
     const isSelected = team => selectedTeams.includes(team.shortName);
 
     let activeSeasons = [];
@@ -48,8 +57,19 @@ class App extends React.Component {
       <section className="section column is-7">
         <h3 className="is-size-3">Seasons in play</h3>
         <p>{activeSeasons.join(', ')}</p>
+
         <h3 className="is-size-3">Table</h3>
         <pre>{selectedTeams.map(shortName => teams.find(t => t.shortName === shortName).name).join('\n')}</pre>
+
+        <h3 className="is-size-3">Schedule</h3>
+        {fixtures.map(
+          (week, i) => (
+            <pre>
+              <b>Week {`${i+1}`}</b><br />
+              {week.map(teams => `${teams[0]} v ${teams[1]}\n`)}
+            </pre>
+          )
+        )}
       </section>
       <section className="section column is-5 teams">
       <h3 className="is-size-3">Choose Teams</h3>
