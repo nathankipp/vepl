@@ -8,6 +8,12 @@ A random season generator based on historical results in the English Premier Lea
 
 ---
 
+## Get up and running
+1. ```$ git clone [this-repo] [your-dir]```; ```$ cd [your-dir]```
+2. ```$ nvm use``` (node v13.12.0)   
+3. ```yarn```
+4. ```yarn start``` (runs create-react-app on localhost:3k)  
+
 ## Tech stack
  - react (create-react-app)
  - bulma (a css framework to give us out-of-the-box styling)
