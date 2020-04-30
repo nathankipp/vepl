@@ -8,6 +8,12 @@ A random season generator based on historical results in the English Premier Lea
 
 ---
 
+## Get up and running
+1. ```$ git clone [this-repo] [your-dir]```; ```$ cd [your-dir]```
+2. ```$ nvm use``` (node v13.12.0)   
+3. ```yarn```
+4. ```yarn start``` (runs create-react-app on localhost:3k)  
+
 ## Tech stack
  - react (create-react-app)
  - bulma (a css framework to give us out-of-the-box styling)
@@ -42,7 +48,7 @@ These are not in any order--pick off whatever you want, @davicho!
 #### Data & computations
 1. Set up a piece of state we can  use to quickly compute matches
  - not sure about the data structure here...
-2. Compute match list
+2. ~~Compute match list~~
  - using the selected teams, build a week-by-week schedule of matches
  - everyone plays everyone else (random order), then at opposite venue (same order as prev order)  
    a. Week 1: A v B, C v D  
