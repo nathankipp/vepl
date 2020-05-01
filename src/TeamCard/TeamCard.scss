@@ -1,0 +1,17 @@
+.Team-Card {
+    cursor: pointer;
+    display: flex;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    width: 100%;
+
+    img {
+      float: left;
+      margin-right: 1rem;
+      height: 5rem;
+    }
+
+    &.selected {
+      background-color: #ddd;
+    }
+  }
