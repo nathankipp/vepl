@@ -29,7 +29,7 @@ These are not in any order--pick off whatever you want, @davicho!
 1. LeagueTable
  - use Bulma table
  - use selected teamm, but add mock data for win, loss, tie, points, GD, GF, GA, etc.
-2. Match
+2. ~~Match~~
  - takes in teams (home, away) and result
  - should show badges (maybe a v b), score (ARS 2 - 1 MCI), and the season it came from
  - can use card or box from Bulma
