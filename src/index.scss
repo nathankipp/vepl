@@ -1,35 +1,4 @@
-@charset "utf-8";
-@import "../node_modules/bulma/bulma.sass";
-
-.columns {
-  flex-wrap: wrap;
-}
-
-.box {
-  &.match { padding: .75rem; }
-
-  &.team-card {
-    cursor: pointer;
-    display: flex;
-    width: 100%;
-
-    img {
-      float: left;
-      margin-right: 1rem;
-      height: 5rem;
-    }
-
-    &.selected {
-      background-color: $cyan;
-    }
-
-    &.disabled {
-      cursor: default;
-      pointer-events: none;
-
-      img, div {
-        opacity: .25;
-      }
-    }
-  }
+html, body {
+  margin: 0;
+  padding: 0;
 }
