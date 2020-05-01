@@ -2,14 +2,15 @@ import React from 'react';
 import './App.scss';
 import TeamCard from '../TeamCard';
 import Match from '../Match';
-import { scheduleMatches, getEligibleSeasons } from '../utils/scheduling';
+import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
 class App extends React.Component {
   state = {
     teams: this.props.data,
     selectedTeams: [],
     activeSeasons: [],
-    fixtures: []
+    fixtures: [],
+    results: {},
   };
 
   clickTeam = (team) => {
@@ -26,12 +27,37 @@ class App extends React.Component {
     this.setState({
       selectedTeams,
       activeSeasons: getEligibleSeasons(teams, selectedTeams),
-      fixtures: scheduleMatches(selectedTeams)
+      fixtures: scheduleMatches(selectedTeams),
+      results: {},
     });
   }
 
+  getRandomSeason = () => {
+    const { activeSeasons } = this.state;
+    const random = Math.floor(Math.random() * Math.floor(activeSeasons.length));
+    return String(activeSeasons[random]);
+  }
+
+  playSeason() {
+    const { teams, activeSeasons, fixtures } = this.state;
+    const allResults = buildResults(teams, activeSeasons);
+    const results = {};
+    fixtures.forEach(week => {
+      week.forEach(fixture => {
+        const homeAway = fixture.join('');
+        const season = this.getRandomSeason();
+        results[homeAway] = {
+          result: allResults[season][homeAway],
+          season,
+        };
+      });
+    })
+
+    this.setState({ results: { ...results } });
+  }
+
   render() {
-    const { teams, selectedTeams, activeSeasons, fixtures } = this.state;
+    const { teams, selectedTeams, activeSeasons, fixtures, results } = this.state;
 
     const isSelected = team => selectedTeams.includes(team.shortName);
     const playedAllActiveSeasons = seasons =>
@@ -48,17 +74,24 @@ class App extends React.Component {
           <pre>{selectedTeams.map(shortName => teams.find(t => t.shortName === shortName).name).join('\n')}</pre>
 
           <h3>Schedule</h3>
+          {!!fixtures.length && <button onClick={() => this.playSeason(fixtures, activeSeasons)}>play</button>}
           {fixtures.map(
             (week, i) => (
               <div key={`week${i}`} className="column is-6">
-              <h5>Week {`${i+1}`}</h5>
-              <div className="match">
-              {week.map(fixture => {
-                const home = teams.find(({ shortName }) => shortName === fixture[0]);
-                const away = teams.find(({ shortName }) => shortName === fixture[1]);
-                return <Match key={fixture.join('')} home={home} away={away} />;
-              })}
-              </div>
+                <h5>Week {`${i+1}`}</h5>
+                <div>
+                  {week.map(fixture => {
+                    const homeAway = fixture.join('');
+                    // console.log(results);
+                    return (
+                      <Match
+                        key={homeAway}
+                        fixture={fixture}
+                        results={results[homeAway]}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             )
           )}

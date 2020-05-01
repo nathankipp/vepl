@@ -1,12 +1,9 @@
-.match {
+.Match {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 
-  div {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    
-    &:not(:last-child) { margin-bottom: .75rem; }
-  }
+  &:not(:last-child) { margin-bottom: .75rem; }
 
   span {
     display: flex;
@@ -16,5 +13,13 @@
 
   img {
     height: 2rem;
+  }
+}
+
+.Result {
+  text-align: center;
+  
+  .season {
+    font-size: .5rem;
   }
 }

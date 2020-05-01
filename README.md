@@ -46,7 +46,7 @@ These are not in any order--pick off whatever you want, @davicho!
 2. Figure out some better way to show which season(s) will be used to choose results
 
 #### Data & computations
-1. Set up a piece of state we can  use to quickly compute matches
+1. ~~Set up a piece of state we can  use to quickly compute matches~~
  - not sure about the data structure here...
 2. ~~Compute match list~~
  - using the selected teams, build a week-by-week schedule of matches
@@ -56,7 +56,7 @@ These are not in any order--pick off whatever you want, @davicho!
    c. Week 3: A v D, B v C  
    d. ...same matches, opposite venue
  - question: do we only allow leagues w/ an even # of teams???
-3. Random selection of results (enriches match week data)
+3. ~~Random selection of results (enriches match week data)~~
  - take in match schedule
  - grab result from available matches
  - return match schedule with results
