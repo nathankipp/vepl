@@ -2,11 +2,13 @@ const csv = require('csv-parser');
 const fs = require('fs');
 
 const DATA = {};
+const SEASONS_DIR = './seasons';
+const DATA_FILE = './src/data.json';
 
 function getSeason(year) {
   const teams = [];
   return new Promise(resolve => {
-    fs.createReadStream(`./${year}.csv`)
+    fs.createReadStream(`./${SEASONS_DIR}/${year}.csv`)
       .pipe(csv())
       .on('data', (data) => {
         teams.push(data);
@@ -54,6 +56,6 @@ Promise.all(seasonData)
   .finally(() => {
     const a = [];
     Object.keys(DATA).sort().forEach(shortName => a.push(DATA[shortName]));
-    fs.writeFileSync('./data.json', JSON.stringify(a, null, 2) , 'utf-8');
+    fs.writeFileSync(DATA_FILE, JSON.stringify(a, null, 2) , 'utf-8');
     console.table(a);
   });

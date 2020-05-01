@@ -4,11 +4,9 @@ import TeamCard from '../TeamCard';
 import Match from '../Match';
 import { scheduleMatches, getEligibleSeasons } from '../utils/scheduling';
 
-import data from '../seasons/data.json';
-
 class App extends React.Component {
   state = {
-    teams: data,
+    teams: this.props.data,
     selectedTeams: [],
     activeSeasons: [],
     fixtures: []
