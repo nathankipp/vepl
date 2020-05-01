@@ -1,0 +1,20 @@
+.match {
+
+  div {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    
+    &:not(:last-child) { margin-bottom: .75rem; }
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+  }
+
+  img {
+    height: 2rem;
+  }
+}

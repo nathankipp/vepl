@@ -1,38 +1,35 @@
 @charset "utf-8";
 @import "../node_modules/bulma/bulma.sass";
 
-html, body {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+.columns {
+  flex-wrap: wrap;
 }
 
-.section.teams {
-  max-height: 100vh;
-  overflow-y: scroll;
-}
+.box {
+  &.match { padding: .75rem; }
 
-.box.team-card {
-  cursor: pointer;
-  display: flex;
-  width: 100%;
+  &.team-card {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
 
-  img {
-    float: left;
-    margin-right: 1rem;
-    height: 5rem;
-  }
+    img {
+      float: left;
+      margin-right: 1rem;
+      height: 5rem;
+    }
 
-  &.selected {
-    background-color: $cyan;
-  }
+    &.selected {
+      background-color: $cyan;
+    }
 
-  &.disabled {
-    cursor: default;
-    pointer-events: none;
+    &.disabled {
+      cursor: default;
+      pointer-events: none;
 
-    img, div {
-      opacity: .25;
+      img, div {
+        opacity: .25;
+      }
     }
   }
 }
