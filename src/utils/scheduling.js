@@ -1,22 +1,32 @@
-export function scheduleMatches(TEAMS) {
-  let teams = Array.from(TEAMS);
+export function scheduleMatches(teams = []) {
+  if (teams.length < 2) {
+    return [];
+  }
 
   const home = [];
   const away = [];
 
-  const start = !(teams.length % 2) ? 1 : 0;
-  for (let week = 0; week < teams.length - 1; week += 1) {
-    const last = teams.pop();
-    teams.splice(start, 0, last);
+  const rounds = teams.length % 2 === 0
+    ? teams.length - 1
+    : teams.length;
+
+  let rotateTeams = Array.from(teams);
+  for (let i = 0; i < rounds; i += 1) {
+    const rotation = Array.from(rotateTeams);
 
     let matches = [];
-    for (let i = 0; i < teams.length - 1; i += 2) {
-      matches.push([teams[i], teams[i+1]]);
+    while (rotation.length > 1) {
+      const first = rotation.shift();
+      const last = rotation.pop();
+      matches.push([first, last]);
     }
+
+    const last = rotateTeams.pop();
+    rotateTeams.splice((teams.length + 1) % 2, 0, last);
 
     home.push(matches);
     away.push(matches.map(match => match.slice().reverse()));
-  }
+  };
 
   return home.concat(away);
 }
