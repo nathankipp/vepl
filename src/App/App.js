@@ -4,12 +4,15 @@ import TeamCard from '../TeamCard';
 import Match from '../Match';
 import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
+const TIME_BETWEEN_FIXTURES = 500;
+
 class App extends React.Component {
   state = {
     teams: this.props.data,
     selectedTeams: [],
     activeSeasons: [],
     fixtures: [],
+    isPlaying :false,
     results: {},
   };
 
@@ -38,12 +41,14 @@ class App extends React.Component {
     return String(activeSeasons[random]);
   }
 
-  playSeason() {
+  async playSeason() {
+    this.setState({ isPlaying: true });
     const { teams, activeSeasons, fixtures } = this.state;
     const allResults = buildResults(teams, activeSeasons);
     const results = {};
-    fixtures.forEach(week => {
-      week.forEach(fixture => {
+    for (let i = 0; i < fixtures.length; i += 1) {
+      const play = [];
+      fixtures[i].forEach(fixture => {
         const homeAway = fixture.join('');
         const season = this.getRandomSeason();
         results[homeAway] = {
@@ -51,13 +56,14 @@ class App extends React.Component {
           season,
         };
       });
-    })
-
-    this.setState({ results: { ...results } });
+      await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
+        .then(() => this.setState({ results }));
+    }
+    this.setState({ isPlaying: false });
   }
 
   render() {
-    const { teams, selectedTeams, activeSeasons, fixtures, results } = this.state;
+    const { teams, selectedTeams, activeSeasons, fixtures, isPlaying, results } = this.state;
 
     const isSelected = team => selectedTeams.includes(team.shortName);
     const playedAllActiveSeasons = seasons =>
@@ -74,7 +80,14 @@ class App extends React.Component {
           <pre>{selectedTeams.map(shortName => teams.find(t => t.shortName === shortName).name).join('\n')}</pre>
 
           <h3>Schedule</h3>
-          {!!fixtures.length && <button onClick={() => this.playSeason(fixtures, activeSeasons)}>play</button>}
+          {!!fixtures.length &&
+            <button
+              disabled={isPlaying}
+              onClick={() => this.playSeason(fixtures, activeSeasons)}
+            >
+              play
+            </button>
+          }
           {fixtures.map(
             (week, i) => (
               <div key={`week${i}`} className="column is-6">

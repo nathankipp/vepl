@@ -1,10 +1,20 @@
 import { scheduleMatches, getEligibleSeasons, buildResults } from './scheduling.js';
 
 describe('scheduleMatches()', () => {
-  it('schedules 2 x (n - 1) weeks of games', () => {
-    expect(scheduleMatches(new Array(2)).length).toBe(2);
-    expect(scheduleMatches(new Array(3)).length).toBe(4);
-    expect(scheduleMatches(new Array(20)).length).toBe(38);
+  it('returns empty array for any less than 2 teams', () => {
+    expect(scheduleMatches()).toEqual([]);
+    expect(scheduleMatches([])).toEqual([]);
+    expect(scheduleMatches([1])).toEqual([]);
+  });
+
+  it('returns the right number of rounds', () => {
+    const nine = 'acbdefghi';
+    const ten = 'acbdefghij';
+    const twenty = ten.split('').concat(ten.toUpperCase().split(''));
+    expect(scheduleMatches(nine.split('')).length).toBe(18);
+    expect(scheduleMatches(ten.split('')).length).toBe(18);
+    expect(scheduleMatches(twenty).length).toBe(38);
+
   });
 
   it('never schedules the same team twice per week', () => {
@@ -16,25 +26,20 @@ describe('scheduleMatches()', () => {
   });
 
   it('schedules every fixture exactly once', () => {
-    const schedule = scheduleMatches(['A', 'B', 'C', 'D']);
-    const fixtures = [
-      // A home
-      'A,B', 'A,D', 'A,C',
-      'D,C', 'C,B', 'B,D',
-      // A away
-      'B,A', 'D,A', 'C,A',
-      'C,D', 'B,C', 'D,B',
-    ];
-    const occurrences = fixtures.map(fixture =>
-      schedule.find(matches =>
-        matches[0].toString() === fixture ||
-        matches[1].toString() === fixture
-      )
-        ? true
-        : false
-    );
-
-    occurrences.forEach(once => expect(once).toBe(true));
+    const twentyTeams = 'abcdefghijklmnopqrst'.split('');
+    const schedule = scheduleMatches(twentyTeams);
+    const fixtures = [];
+    const allUnique = true;
+    for (let i = 0; i < schedule.length; i += 1) {
+      for (let j = 0; j < schedule[i].length; j += 1) {
+        const fixture = schedule[i][j].join('');
+        if (fixtures.includes(fixture)) {
+          allUnique = false;
+        }
+        fixtures.push(fixture);
+      }
+    }
+    expect(allUnique).toBe(true);
   });
 });
 
