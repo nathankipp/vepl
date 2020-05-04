@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.scss';
+import LeagueTable from '../LeagueTable';
 import TeamCard from '../TeamCard';
 import Match from '../Match';
 import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
-const TIME_BETWEEN_FIXTURES = 500;
+const TIME_BETWEEN_FIXTURES = 0;
 
 class App extends React.Component {
   state = {
@@ -56,10 +57,14 @@ class App extends React.Component {
           season,
         };
       });
-      await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
-        .then(() => this.setState({ results }));
+      // TODO: do we want to do delayed play-out?
+      // await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
+      //   .then(() => this.setState({ results }));
     }
-    this.setState({ isPlaying: false });
+    this.setState({
+      results,
+      isPlaying: false ,
+    });
   }
 
   render() {
@@ -77,7 +82,9 @@ class App extends React.Component {
           <p>{activeSeasons.join(', ')}</p>
 
           <h3>Table</h3>
-          <pre>{selectedTeams.map(shortName => teams.find(t => t.shortName === shortName).name).join('\n')}</pre>
+          <pre>
+            <LeagueTable teams={teams} results={results} />
+          </pre>
 
           <h3>Schedule</h3>
           {!!fixtures.length &&

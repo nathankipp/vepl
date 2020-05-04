@@ -26,7 +26,7 @@ A random season generator based on historical results in the English Premier Lea
 These are not in any order--pick off whatever you want, @davicho!
 
 ##### Components
-1. LeagueTable
+1. ~~LeagueTable~~
  - use Bulma table
  - use selected teamm, but add mock data for win, loss, tie, points, GD, GF, GA, etc.
 2. ~~Match~~
