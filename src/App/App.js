@@ -5,7 +5,7 @@ import TeamCard from '../TeamCard';
 import Match from '../Match';
 import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
-const TIME_BETWEEN_FIXTURES = 500;
+const TIME_BETWEEN_FIXTURES = 0;
 
 class App extends React.Component {
   state = {
@@ -57,10 +57,14 @@ class App extends React.Component {
           season,
         };
       });
-      await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
-        .then(() => this.setState({ results }));
+      // TODO: do we want to do delayed play-out?
+      // await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
+      //   .then(() => this.setState({ results }));
     }
-    this.setState({ isPlaying: false });
+    this.setState({
+      results,
+      isPlaying: false ,
+    });
   }
 
   render() {

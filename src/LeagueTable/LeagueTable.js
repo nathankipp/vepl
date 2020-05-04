@@ -1,10 +1,10 @@
 import React from 'react';
-
-const computeGD = ({ gf, ga }) => gf - ga;
-const computePoints = ({ win, draw }) => (win * 3) + draw;
-
-const resultType = (a, b) =>
-  a > b ? 'win' : a < b ? 'loss' : 'draw';
+import {
+  computeGD,
+  computePoints,
+  incrementStats,
+  rankTeams,
+} from '../utils/leagueTable';
 
 function computeStandings(results, teams) {
   const teamName = teams.reduce((acc, curr) =>  {
@@ -13,57 +13,46 @@ function computeStandings(results, teams) {
   }, {});
 
   const standings = [];
-  Object.keys(results).forEach(fixture => {
-    const home = fixture.substr(0,3);
-    const away = fixture.substr(3);
-    const score = {
-      home: results[fixture].result[0],
-      away: results[fixture].result[1],
+  const findIndex = str =>
+    standings.findIndex(({ shortName }) => shortName === str);
+
+  Object.keys(results).forEach(homeAway => {
+    const home = homeAway.substr(0,3);
+    const away = homeAway.substr(3);
+    const index = {
+      home: findIndex(home),
+      away: findIndex(away),
     };
 
-    const homeTally = standings.find(({ shortName }) => shortName === home);
-    if (!homeTally) {
-      standings.push({
+    const fixture = {
+      home: {
         shortName: home,
         name: teamName[home],
-        played: 1,
-        win: score.home > score.away ? 1 : 0,
-        loss: score.home < score.away ? 1 : 0,
-        draw: score.home === score.away ? 1 : 0,
-        gf: score.home,
-        ga: score.away,
-      });
-    } else {
-      homeTally.played += 1;
-      homeTally[resultType(score.home, score.away)] += 1;
-      homeTally.gf += score.home;
-      homeTally.ga += score.away;
-    }
-
-    const awayTally = standings.find(({ shortName }) => shortName === away);
-    if (!awayTally) {
-      standings.push({
+        standings: standings[index.home],
+      },
+      away: {
         shortName: away,
         name: teamName[away],
-        played: 1,
-        win: score.away > score.home ? 1 : 0,
-        loss: score.away < score.home ? 1 : 0,
-        draw: score.away === score.home ? 1 : 0,
-        gf: score.away,
-        ga: score.home,
-      });
-    } else {
-      awayTally.played += 1;
-      awayTally[resultType(score.away, score.home)] += 1;
-      awayTally.gf += score.away;
-      awayTally.ga += score.home;
-    }
+        standings: standings[index.away],
+      },
+      score: results[homeAway].result,
+    };
+
+    ['home', 'away'].forEach(team => {
+      const updatedStandings = incrementStats(team)(fixture);
+      if (!fixture[team].standings) {
+        standings.push(updatedStandings);
+      } else {
+        const ref = index[team];
+        standings[ref] = {
+          ...standings[ref],
+          ...updatedStandings,
+        };
+      }
+    });
   });
 
-  console.log(standings);
-  return standings.sort((a,b) =>
-    computePoints(b) - computePoints(a)
-  );
+  return rankTeams(standings);
 }
 
 const LeagueTable = ({ teams, results }) => {
