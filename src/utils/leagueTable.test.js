@@ -97,7 +97,7 @@ describe('leagueTable utils', () => {
     });
 
     describe('for the first match in a series', () => {
-      it('returns entries for a drawd first match', () => {
+      it('returns entries for a drawn first match', () => {
         const fixture = getFixture([0,0]);
         expect(incrementStats('home')(fixture)).toEqual({
           shortName: 'a',
