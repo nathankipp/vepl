@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import NavBar from '../NavBar';
 import LeagueTable from '../LeagueTable';
 import TeamCard from '../TeamCard';
 import Match from '../Match';
@@ -62,9 +63,14 @@ class App extends React.Component {
     }
     this.setState({
       results,
-      isPlaying: false ,
+      isPlaying: false,
     });
   }
+
+  playClickHandler = () => {
+    const { fixtures, activeSeasons } = this.state;
+    this.playSeason(fixtures, activeSeasons)
+  };
 
   render() {
     const { teams, selectedTeams, activeSeasons, fixtures, isPlaying, results } = this.state;
@@ -74,68 +80,67 @@ class App extends React.Component {
       activeSeasons.length === 0 || activeSeasons.filter(year => seasons.includes(year)).length;
 
     return (
-      <div className="App">
-        <div>
+      <>
+        <NavBar
+          canPlay={!!fixtures.length}
+          playClickHandler={this.playClickHandler}
+          isPlaying={isPlaying}
+        />
+        <div className="App">
+          <div>
 
-          <h3>Seasons in play</h3>
-          <p>{activeSeasons.join(', ')}</p>
+            <h3>Seasons in play</h3>
+            <p>{activeSeasons.join(', ')}</p>
 
-          <h3>Table</h3>
-          <pre>
-            <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
-          </pre>
+            <h3>Table</h3>
+            <pre>
+              <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
+            </pre>
 
-          <h3>Schedule</h3>
-          {!!fixtures.length &&
-            <button
-              disabled={isPlaying}
-              onClick={() => this.playSeason(fixtures, activeSeasons)}
-            >
-              play
-            </button>
-          }
-          {fixtures.map(
-            (week, i) => (
-              <div key={`week${i}`} className="column is-6">
-                <h5>Week {`${i+1}`}</h5>
-                <div>
-                  {week.map(fixture => {
-                    const homeAway = fixture.join('');
-                    // console.log(results);
-                    return (
-                      <Match
-                        key={homeAway}
-                        fixture={fixture}
-                        results={results[homeAway]}
-                      />
-                    );
-                  })}
+            <h3>Schedule</h3>
+            {fixtures.map(
+              (week, i) => (
+                <div key={`week${i}`} className="column is-6">
+                  <h5>Week {`${i+1}`}</h5>
+                  <div>
+                    {week.map(fixture => {
+                      const homeAway = fixture.join('');
+                      // console.log(results);
+                      return (
+                        <Match
+                          key={homeAway}
+                          fixture={fixture}
+                          results={results[homeAway]}
+                        />
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )
-          )}
+              )
+            )}
 
+          </div>
+          <div>
+
+            <h3>Choose Teams</h3>
+            {
+              teams.map((team) => {
+                const selected = isSelected(team);
+                const disabled = !playedAllActiveSeasons(team.seasons);
+                return (
+                  !disabled && <TeamCard
+                    key={team.shortName}
+                    team={team}
+                    click={this.clickTeam}
+                    selected={selected}
+                  />
+                );
+              })
+            }
+
+          </div>
         </div>
-        <div>
-
-          <h3>Choose Teams</h3>
-          {
-            teams.map((team) => {
-              const selected = isSelected(team);
-              const disabled = !playedAllActiveSeasons(team.seasons);
-              return (
-                !disabled && <TeamCard
-                  key={team.shortName}
-                  team={team}
-                  click={this.clickTeam}
-                  selected={selected}
-                />
-              );
-            })
-          }
-
-        </div>
-      </div>
+      </>
     );
   }
 }

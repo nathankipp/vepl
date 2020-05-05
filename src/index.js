@@ -12,6 +12,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+// <Bulma />
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
