@@ -1,7 +1,13 @@
-.App {
-  display: flex;
+@import 'bulma/sass/utilities/_all.sass';
 
-  & > div {
-    width: 45%;
-  }
+.App {
+    background: $info;
+
+    &__content {
+      display: flex;
+
+      &--half {
+        flex: 1 1 50%;
+      }
+    }
 }
