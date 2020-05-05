@@ -55,8 +55,19 @@ function computeStandings(results, teams) {
   return rankTeams(standings);
 }
 
-const LeagueTable = ({ teams, results }) => {
-  const standings = computeStandings(results, teams);
+const LeagueTable = ({ teams, selectedTeams, results }) => {
+  const standings = Object.keys(results).length
+    ? computeStandings(results, teams)
+    : selectedTeams.map(team => ({
+        name: teams.find(({ shortName }) => shortName === team).name,
+        played: 0,
+        win: 0,
+        loss: 0,
+        draw: 0,
+        gf: 0,
+        ga: 0,
+      }
+    ));
   return (
     <table>
       <thead>

@@ -49,7 +49,6 @@ class App extends React.Component {
     const allResults = buildResults(teams, activeSeasons);
     const results = {};
     for (let i = 0; i < fixtures.length; i += 1) {
-      const play = [];
       fixtures[i].forEach(fixture => {
         const homeAway = fixture.join('');
         const season = this.getRandomSeason();
@@ -95,7 +94,7 @@ class App extends React.Component {
 
             <h3>Table</h3>
             <pre>
-              <LeagueTable teams={teams} results={results} />
+              <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
             </pre>
 
             <h3>Schedule</h3>
