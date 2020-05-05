@@ -3,7 +3,7 @@ import vepl from '../badges/apple-touch-icon.png';
 import './NavBar.scss';
 
 const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
-  <nav className="navbar is-info" role="navigation" aria-label="main navigation">
+  <nav className="navbar is-warning" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <a className="navbar-item" href="/">
         <img src={vepl} width="28" height="28" />
@@ -21,7 +21,7 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
         <div className="navbar-item">
           <div className="buttons">
             <button
-              className={`button is-primary${isPlaying ? 'is-loading' : ''}`}
+              className={`button is-info${isPlaying ? 'is-loading' : ''}`}
               disabled={!canPlay}
               onClick={playClickHandler}
             >

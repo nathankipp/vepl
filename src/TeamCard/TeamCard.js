@@ -8,13 +8,18 @@ const TeamCard = ({ team, click, selected }) => {
 
   return (
     <div
-      className={`Team-Card${select}`}
-      onClick={() => click(team.shortName)}
+     className={`Team-Card${select} box has-text-dark`}
+     onClick={() => click(team.shortName)}
     >
-      <img src={badges[shortName]} alt={name} />
-      <div>
-        <h4>{name}</h4>
-        <p>{seasons.join(', ')}</p>
+      <div className="Team-Card__badge">
+        <img src={badges[shortName]} alt={name} />
+        <p className="is-size-4">{shortName}</p>
+      </div>
+      <div className="Team-Card__info">
+        <h5 className="is-size-4">{name}</h5>
+        <p className="is-size-7 has-text-grey-dark">
+          {seasons.join(', ')}
+        </p>
       </div>
     </div>
   );
