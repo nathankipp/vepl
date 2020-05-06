@@ -17,13 +17,13 @@ const Match = ({
   fixture: [ home, away ],
   results: { result, season } = {}
 }) => (
-  <div className="Match">
+  <div className="Match box has-text-dark">
     <span><img src={badges[home]} alt={home} /></span>
-    <span>{home}</span>
+    <span className="is-hidden-mobile">{home}</span>
     <span>
       <Result result={result} season={season} />
     </span>
-    <span>{away}</span>
+    <span className="is-hidden-mobile">{away}</span>
     <span><img src={badges[away]} alt={away} /></span>
   </div>
 );

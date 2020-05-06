@@ -105,21 +105,21 @@ class App extends React.Component {
                 content={() => (
                   fixtures.map(
                     (week, i) => (
-                      <div key={`week${i}`} className="column is-6">
-                      <h5>Week {`${i+1}`}</h5>
-                      <div>
-                      {week.map(fixture => {
-                        const homeAway = fixture.join('');
-                        // console.log(results);
-                        return (
-                          <Match
-                          key={homeAway}
-                          fixture={fixture}
-                          results={results[homeAway]}
-                          />
-                        );
-                      })}
-                      </div>
+                      <div key={`week${i}`}>
+                        <h5 className="is-size-5 has-text-white has-text-centered">Week {`${i+1}`}</h5>
+                        <div>
+                        {week.map(fixture => {
+                          const homeAway = fixture.join('');
+                          // console.log(results);
+                          return (
+                            <Match
+                            key={homeAway}
+                            fixture={fixture}
+                            results={results[homeAway]}
+                            />
+                          );
+                        })}
+                        </div>
                       </div>
                     )
                   )

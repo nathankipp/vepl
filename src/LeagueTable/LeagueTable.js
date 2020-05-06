@@ -1,4 +1,5 @@
 import React from 'react';
+import './LeagueTable.scss';
 import {
   computeGD,
   computePoints,
@@ -60,6 +61,7 @@ const LeagueTable = ({ teams, selectedTeams, results }) => {
     ? computeStandings(results, teams)
     : selectedTeams.map(team => ({
         name: teams.find(({ shortName }) => shortName === team).name,
+        shortName: team,
         played: 0,
         win: 0,
         loss: 0,
@@ -69,40 +71,43 @@ const LeagueTable = ({ teams, selectedTeams, results }) => {
       }
     ));
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Pos</th>
-          <th>Team</th>
-          <th>Pld</th>
-          <th>W</th>
-          <th>L</th>
-          <th>D</th>
-          <th>GF</th>
-          <th>GA</th>
-          <th>GD</th>
-          <th>Pts</th>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        standings.map((row, pos) => (
-          <tr key={row.name}>
-            <td>{pos + 1}</td>
-            <td>{row.name}</td>
-            <td>{row.played}</td>
-            <td>{row.win}</td>
-            <td>{row.loss}</td>
-            <td>{row.draw}</td>
-            <td>{row.gf}</td>
-            <td>{row.ga}</td>
-            <td>{computeGD(row)}</td>
-            <td>{computePoints(row)}</td>
+    <div className="box">
+      <table className="table is-fullwidth is-narrow">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Team</th>
+            <th className="is-hidden-mobile">Pld</th>
+            <th className="is-hidden-mobile">W</th>
+            <th className="is-hidden-mobile">L</th>
+            <th className="is-hidden-mobile">D</th>
+            <th className="is-hidden-touch">GF</th>
+            <th className="is-hidden-touch">GA</th>
+            <th className="is-hidden-touch">GD</th>
+            <th>Pts</th>
           </tr>
-        ))
-      }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        {
+          standings.map((row, pos) => (
+            <tr key={row.name}>
+              <td>{pos + 1}</td>
+              <td className="is-hidden-desktop">{row.shortName}</td>
+              <td className="is-hidden-touch">{row.name}</td>
+              <td className="is-hidden-mobile">{row.played}</td>
+              <td className="is-hidden-mobile">{row.win}</td>
+              <td className="is-hidden-mobile">{row.loss}</td>
+              <td className="is-hidden-mobile">{row.draw}</td>
+              <td className="is-hidden-touch">{row.gf}</td>
+              <td className="is-hidden-touch">{row.ga}</td>
+              <td className="is-hidden-touch">{computeGD(row)}</td>
+              <td>{computePoints(row)}</td>
+            </tr>
+          ))
+        }
+        </tbody>
+      </table>
+    </div>
   );
 }
 
