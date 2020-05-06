@@ -33,7 +33,7 @@ class App extends React.Component {
     this.setState({
       selectedTeams,
       activeSeasons: getEligibleSeasons(teams, selectedTeams),
-      fixtures: scheduleMatches(selectedTeams),
+      fixtures: [],
       results: {},
     });
   }
@@ -45,8 +45,12 @@ class App extends React.Component {
   }
 
   async playSeason() {
-    this.setState({ isPlaying: true });
-    const { teams, activeSeasons, fixtures } = this.state;
+    const { teams, selectedTeams, activeSeasons } = this.state;
+    const fixtures = scheduleMatches(selectedTeams);
+    this.setState({
+      fixtures,
+      isPlaying: true,
+     });
     const allResults = buildResults(teams, activeSeasons);
     const results = {};
     for (let i = 0; i < fixtures.length; i += 1) {
@@ -83,7 +87,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <NavBar
-          canPlay={!!fixtures.length}
+          canPlay={selectedTeams.length > 1}
           playClickHandler={this.playClickHandler}
           isPlaying={isPlaying}
         />
@@ -95,39 +99,33 @@ class App extends React.Component {
                 <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
               )}
             />
-            <Section
-              title="Eligible Seasons"
-              content={() => (
-                <div class="box">
-                  {activeSeasons.join(', ')}
-                </div>
-              )}
-            />
-            <Section
-              title="Fixtures"
-              content={() => (
-                fixtures.map(
-                  (week, i) => (
-                    <div key={`week${i}`} className="column is-6">
-                    <h5>Week {`${i+1}`}</h5>
-                    <div>
-                    {week.map(fixture => {
-                      const homeAway = fixture.join('');
-                      // console.log(results);
-                      return (
-                        <Match
-                        key={homeAway}
-                        fixture={fixture}
-                        results={results[homeAway]}
-                        />
-                      );
-                    })}
-                    </div>
-                    </div>
+            {!!fixtures.length && (
+              <Section
+                title="Fixtures"
+                content={() => (
+                  fixtures.map(
+                    (week, i) => (
+                      <div key={`week${i}`} className="column is-6">
+                      <h5>Week {`${i+1}`}</h5>
+                      <div>
+                      {week.map(fixture => {
+                        const homeAway = fixture.join('');
+                        // console.log(results);
+                        return (
+                          <Match
+                          key={homeAway}
+                          fixture={fixture}
+                          results={results[homeAway]}
+                          />
+                        );
+                      })}
+                      </div>
+                      </div>
+                    )
                   )
-                )
-              )}
-            />
+                )}
+              />
+            )}
           </div>
           <div className="App__content--half">
             <Section
@@ -138,11 +136,12 @@ class App extends React.Component {
                     const selected = isSelected(team);
                     const disabled = !playedAllActiveSeasons(team.seasons);
                     return (
-                      !disabled && <TeamCard
-                      key={team.shortName}
-                      team={team}
-                      click={this.clickTeam}
-                      selected={selected}
+                      <TeamCard
+                        key={team.shortName}
+                        team={team}
+                        activeSeasons={activeSeasons}
+                        click={this.clickTeam}
+                        selected={selected}
                       />
                     );
                   })}

@@ -8,6 +8,8 @@
 
       &--half {
         flex: 1 1 50%;
+        height: calc(100vh - 3.25rem);
+        overflow-y: scroll;
       }
     }
 }
