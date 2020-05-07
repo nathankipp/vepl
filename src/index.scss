@@ -93,6 +93,13 @@ $navbar-breakpoint: 0;
   justify-content: space-between;
   width: 100%;
 
+  @media screen and (max-width: 414px) {
+    flex-direction: column;
+    & .small img {
+      margin: 0 .25rem;
+    }
+  }
+
   &:not(:last-child) { margin-bottom: .75rem; }
 
   & .small {
@@ -110,6 +117,9 @@ $navbar-breakpoint: 0;
 
   img {
     height: 2rem;
+    @include desktop {
+      height: 3rem;
+    }
   }
 }
 
@@ -119,4 +129,6 @@ $navbar-breakpoint: 0;
   .season {
     font-size: .5rem;
   }
+
+  display: block;
 }

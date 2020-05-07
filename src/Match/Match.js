@@ -6,7 +6,7 @@ const Result = ({ result, season }) => {
     ? 'v'
     : (
       <div className="Result">
-        <div className="is-size-5">{result.join(' - ')}</div>
+        <div className="is-size-4">{result.join(' - ')}</div>
         <div className="season">{season}</div>
       </div>
     );
@@ -27,11 +27,11 @@ const Match = ({
     </div>
     <div className="Match box has-text-dark is-hidden-mobile">
       <span><img src={badges[home]} alt={home} /></span>
-      <span>{home}</span>
+      <span className="is-size-5">{home}</span>
       <span>
         <Result result={result} season={season} />
       </span>
-      <span>{away}</span>
+      <span className="is-size-5">{away}</span>
       <span><img src={badges[away]} alt={away} /></span>
     </div>
   </>
