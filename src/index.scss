@@ -37,9 +37,10 @@ $navbar-breakpoint: 0;
   height: 100%;
   justify-content: center;
   width: 100%;
+  border-left: .5rem solid white;
 
   &.selected {
-    background-color: $grey-lighter;
+    border-left-color: $warning;
   }
 
   &.disabled {
@@ -93,6 +94,13 @@ $navbar-breakpoint: 0;
   width: 100%;
 
   &:not(:last-child) { margin-bottom: .75rem; }
+
+  & .small {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+  }
 
   span {
     display: flex;

@@ -74,7 +74,7 @@ const LeagueTable = ({ teams, selectedTeams, results }) => {
       <table className="table is-fullwidth is-narrow">
         <thead>
           <tr>
-            <th>Pos</th>
+            <th className="is-hidden-mobile">Pos</th>
             <th>Team</th>
             <th className="is-hidden-mobile">Pld</th>
             <th className="is-hidden-mobile">W</th>
@@ -90,7 +90,7 @@ const LeagueTable = ({ teams, selectedTeams, results }) => {
         {
           standings.map((row, pos) => (
             <tr key={row.name}>
-              <td>{pos + 1}</td>
+              <td className="is-hidden-mobile">{pos + 1}</td>
               <td className="is-hidden-desktop">{row.shortName}</td>
               <td className="is-hidden-touch">{row.name}</td>
               <td className="is-hidden-mobile">{row.played}</td>

@@ -20,7 +20,7 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
         <div className="navbar-item">
           <div className="buttons">
             <button
-              className={`button is-info${isPlaying ? 'is-loading' : ''}`}
+              className={`button is-info {isPlaying ? 'is-loading' : ''}`}
               disabled={!canPlay}
               onClick={playClickHandler}
             >
