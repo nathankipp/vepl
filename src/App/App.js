@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.scss';
 import NavBar from '../NavBar';
 import Section from '../Section';
 import LeagueTable from '../LeagueTable';

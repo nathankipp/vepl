@@ -1,5 +1,4 @@
 import React from 'react';
-import './LeagueTable.scss';
 import {
   computeGD,
   computePoints,

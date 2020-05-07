@@ -1,5 +1,4 @@
 import React from 'react';
-import './Section.scss';
 
 const Section = ({ title, content }) => (
   <div className="Section">

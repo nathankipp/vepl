@@ -1,5 +1,4 @@
 import React from 'react';
-import './TeamCard.scss';
 import badges from '../badges';
 
 const TeamCard = ({ team, activeSeasons, click, selected }) => {

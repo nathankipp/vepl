@@ -1,5 +1,4 @@
 import React from 'react';
-import './Match.scss';
 import badges from '../badges';
 
 const Result = ({ result, season }) => {

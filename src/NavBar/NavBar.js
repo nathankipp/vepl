@@ -1,6 +1,5 @@
 import React from 'react';
 import vepl from '../badges/apple-touch-icon.png';
-import './NavBar.scss';
 
 const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
   <nav className="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
