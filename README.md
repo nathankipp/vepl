@@ -1,5 +1,6 @@
 # Virtual EPL
-A random results generator based on real matches from the English Premier League.
+A random results generator based on real matches from the English Premier League.  
+[https://nathankipp.github.io/vepl](https://nathankipp.github.io/vepl)
 
 ---
 
@@ -18,7 +19,7 @@ A random results generator based on real matches from the English Premier League
 4. ```yarn start``` (runs create-react-app on localhost:3k)  
 
 ### Tech stack
- - node 13.12.0 (season data parsing)
+ - node 13.12.0 & csv-parser
  - yarn
  - React (create-react-app)
  - Bulma (css framework)
