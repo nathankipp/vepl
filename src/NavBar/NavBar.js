@@ -1,7 +1,7 @@
 import React from 'react';
 import vepl from '../badges/apple-touch-icon.png';
 
-const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
+const NavBar = ({ canPlay, playClickHandler, isPlaying, reset }) => (
   <nav className="navbar is-link is-fixed-top" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <a className="navbar-item" href="/">
@@ -12,7 +12,7 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
     <div className="navbar-menu">
       <div className="navbar-start">
         <p className="navbar-item is-size-5">
-          Virtual EPL {String(isPlaying)}
+          Virtual EPL
         </p>
       </div>
 
@@ -33,13 +33,13 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
             >
               <strong>Slowly</strong>
             </button>
-            <a
+            <button
               className={`button is-danger${isPlaying ? ' is-loading' : ''}`}
               disabled={!canPlay}
-              href="/"
+              onClick={reset}
             >
               <strong>Reset</strong>
-            </a>
+            </button>
           </div>
         </div>
       </div>

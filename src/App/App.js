@@ -9,14 +9,18 @@ import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/sche
 
 const TIME_BETWEEN_FIXTURES = 250;
 
+const INITIAL_STATE = {
+  selectedTeams: [],
+  activeSeasons: [],
+  fixtures: [],
+  isPlaying :false,
+  results: {},
+}
+
 class App extends React.Component {
   state = {
+    ...INITIAL_STATE,
     teams: this.props.data,
-    selectedTeams: [],
-    activeSeasons: [],
-    fixtures: [],
-    isPlaying :false,
-    results: {},
   };
 
   clickTeam = (team) => {
@@ -74,6 +78,8 @@ class App extends React.Component {
     });
   }
 
+  reset = () => this.setState(INITIAL_STATE);
+
   render() {
     const { teams, selectedTeams, activeSeasons, fixtures, isPlaying, results } = this.state;
     const isSelected = team => selectedTeams.includes(team.shortName);
@@ -84,6 +90,7 @@ class App extends React.Component {
           canPlay={selectedTeams.length > 1}
           playClickHandler={this.playSeason}
           isPlaying={isPlaying}
+          reset={this.reset}
         />
         <div className="App__content">
           <div className="App__content--half">
@@ -91,12 +98,18 @@ class App extends React.Component {
               <Section title="The Virtual EPL" content={Info} />
             )}
             {!!selectedTeams.length && (
-              <Section
-                title="League Table"
-                content={() => (
-                  <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
-                )}
-              />
+              <>
+                <Section
+                  title="Eligible Seasons"
+                  content={() => <div className="box is-size-7">{activeSeasons.join(', ')}</div>}
+                />
+                <Section
+                  title="League Table"
+                  content={() => (
+                    <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
+                  )}
+                />
+              </>
             )}
             {!!fixtures.length && (
               <Section
