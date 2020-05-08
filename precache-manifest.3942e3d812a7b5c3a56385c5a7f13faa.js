@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9b6fd6c898a689e83dd8e62fa7be9991",
+    "revision": "1152e254bab80e241a17cb9691579695",
     "url": "/vepl/index.html"
   },
   {
-    "revision": "47de91276e715834522e",
+    "revision": "89f9dd4622d8ede37f13",
     "url": "/vepl/static/css/main.3f0c82fc.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vepl/static/js/2.d13de8b7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "47de91276e715834522e",
-    "url": "/vepl/static/js/main.45d9dc3f.chunk.js"
+    "revision": "89f9dd4622d8ede37f13",
+    "url": "/vepl/static/js/main.04290afd.chunk.js"
   },
   {
     "revision": "890e2936b1fe80e65ba3",
