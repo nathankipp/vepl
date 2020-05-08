@@ -49,8 +49,7 @@ class App extends React.Component {
   }
 
   playSeason = async (delay = false) => {
-    const { teams, selectedTeams, activeSeasons, fixtures } = this.state;
-    // const fixtures = scheduleMatches(selectedTeams);
+    const { teams, activeSeasons, fixtures } = this.state;
     this.setState({
       results: {},
       isPlaying: true
