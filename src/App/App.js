@@ -1,12 +1,13 @@
 import React from 'react';
 import NavBar from '../NavBar';
 import Section from '../Section';
+import Info from '../Info';
 import LeagueTable from '../LeagueTable';
 import TeamCard from '../TeamCard';
 import Match from '../Match';
 import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
-const TIME_BETWEEN_FIXTURES = 0;
+// const TIME_BETWEEN_FIXTURES = 0;
 
 class App extends React.Component {
   state = {
@@ -80,8 +81,8 @@ class App extends React.Component {
     const { teams, selectedTeams, activeSeasons, fixtures, isPlaying, results } = this.state;
 
     const isSelected = team => selectedTeams.includes(team.shortName);
-    const playedAllActiveSeasons = seasons =>
-      activeSeasons.length === 0 || activeSeasons.filter(year => seasons.includes(year)).length;
+    // const playedAllActiveSeasons = seasons =>
+    //   activeSeasons.length === 0 || activeSeasons.filter(year => seasons.includes(year)).length;
 
     return (
       <div className="App">
@@ -92,12 +93,20 @@ class App extends React.Component {
         />
         <div className="App__content">
           <div className="App__content--half">
-            <Section
-              title="League Table"
-              content={() => (
-                <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
-              )}
-            />
+            {!selectedTeams.length && !fixtures.length && (
+              <Section
+                title="The Virtual EPL"
+                content={Info}
+              />
+            )}
+            {!!selectedTeams.length && (
+              <Section
+                title="League Table"
+                content={() => (
+                  <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
+                )}
+              />
+            )}
             {!!fixtures.length && (
               <Section
                 title="Fixtures"
@@ -133,7 +142,7 @@ class App extends React.Component {
                 <div className="Team-Cards">
                   {teams.map((team) => {
                     const selected = isSelected(team);
-                    const disabled = !playedAllActiveSeasons(team.seasons);
+                    // const disabled = !playedAllActiveSeasons(team.seasons);
                     return (
                       <TeamCard
                         key={team.shortName}

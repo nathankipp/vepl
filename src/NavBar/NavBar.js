@@ -5,7 +5,7 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying }) => (
   <nav className="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
       <a className="navbar-item" href="/">
-        <img src={vepl} width="28" height="28" />
+        <img src={vepl} alt="vepl" width="28" height="28" />
       </a>
     </div>
 
