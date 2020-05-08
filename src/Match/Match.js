@@ -3,7 +3,7 @@ import badges from '../badges';
 
 const Result = ({ result, season }) => {
   return !result
-    ? 'v'
+    ? <span className="is-hidden-mobile">v</span>
     : (
       <div className="Result">
         <div className="is-size-4">{result.join(' - ')}</div>
