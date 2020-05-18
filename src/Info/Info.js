@@ -5,10 +5,10 @@ const Info = () => (
     <h2 className="is-size-2">What <i>is</i> a virtual EPL?</h2>
     <hr />
     <p>
-      The VEPL uses the results from every match in the English Premiere Leauge, going back to its innaugural year of 1993,
+      The VEPL uses the results from every match in the English Premiere League, going back to its innaugural year of 1993,
       to simulate an entire season.  The teams you select are pitted against each other in a round-robin of home and away matches,
       just like a real EPL season.  For each fixture a result is randomly chosen from the set of years in which <b>all</b> the selected
-      teams participated in the leauge.
+      teams participated in the league.
     </p>
     <p>&nbsp;</p>
     <p>
