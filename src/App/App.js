@@ -7,13 +7,13 @@ import Fixtures from '../Fixtures';
 import TeamCard from '../TeamCard';
 import { scheduleMatches, getEligibleSeasons, buildResults } from '../utils/scheduling';
 
-const TIME_BETWEEN_FIXTURES = 250;
-
 const INITIAL_STATE = {
   selectedTeams: [],
   activeSeasons: [],
   fixtures: [],
+  isWorking: false,
   isPlaying :false,
+  iterations: 1,
   results: {},
 }
 
@@ -23,9 +23,18 @@ class App extends React.Component {
     teams: this.props.data,
   };
 
+  scheduleMatches = () => {
+    const { iterations, selectedTeams } = this.state;
+    const roundRobin = scheduleMatches(selectedTeams);
+    const fixtures = [];
+    for (let i = 0; i < iterations; i += 1) {
+      fixtures.push(...roundRobin);
+    }
+    return fixtures;
+  }
+
   clickTeam = (team) => {
     const { teams, selectedTeams: selected } = this.state;
-
     let selectedTeams = new Set(selected);
     if (selectedTeams.has(team)) {
       selectedTeams.delete(team);
@@ -37,8 +46,12 @@ class App extends React.Component {
     this.setState({
       selectedTeams,
       activeSeasons: getEligibleSeasons(teams, selectedTeams),
-      fixtures: scheduleMatches(selectedTeams),
+      iterations: 1,
       results: {},
+    }, () => {
+      this.setState({
+        fixtures: this.scheduleMatches()
+      });
     });
   }
 
@@ -48,45 +61,84 @@ class App extends React.Component {
     return String(activeSeasons[random]);
   }
 
-  playSeason = async (delay = false) => {
+  getResults = () => {
     const { teams, activeSeasons, fixtures } = this.state;
-    this.setState({
-      results: {},
-      isPlaying: true
-    });
-    await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES * 2));
     const allResults = buildResults(teams, activeSeasons);
     const results = {};
     for (let i = 0; i < fixtures.length; i += 1) {
       fixtures[i].forEach(fixture => {
         const homeAway = fixture.join('');
         const season = this.getRandomSeason();
-        results[homeAway] = {
+        results[`${homeAway}.${i}`] = {
           result: allResults[season][homeAway],
           season,
         };
       });
-      if (delay) {
-        await new Promise(resolve => setTimeout(resolve, TIME_BETWEEN_FIXTURES))
-          .then(() => this.setState({ results }));
-      }
     }
+    return results;
+  }
+
+  playSeason = () => {
     this.setState({
-      results,
-      isPlaying: false,
+      isWorking: true,
+      isPlaying: true,
+      results: {},
+    }, () => {
+      new Promise(resolve => {
+        setTimeout(() => {
+          const results = this.getResults();
+          resolve(results);
+        }, 0);
+      }).then(results => {
+        this.setState({
+          isWorking: false,
+          isPlaying: false,
+          results,
+        });
+      });
+    });
+  }
+
+  playSeries = (iterations) => {
+    this.setState({
+      isWorking: true,
+      iterations,
+      fixtures: [],
+      results: {},
+    }, () => {
+      new Promise(resolve => {
+        setTimeout(() => {
+          const fixtures = this.scheduleMatches();
+          resolve(fixtures);
+        }, 0);
+      }).then(fixtures => {
+        this.setState({
+          isWorking: false,
+          fixtures,
+        });
+      });
     });
   }
 
   reset = () => this.setState(INITIAL_STATE);
 
   render() {
-    const { teams, selectedTeams, activeSeasons, fixtures, isPlaying, results } = this.state;
+    const {
+      teams,
+      selectedTeams,
+      activeSeasons,
+      fixtures,
+      isWorking,
+      isPlaying,
+      iterations,
+      results
+    } = this.state;
     const isSelected = team => selectedTeams.includes(team.shortName);
 
     return (
       <div className="App">
         <NavBar
-          canPlay={selectedTeams.length > 1}
+          canPlay={!isWorking && selectedTeams.length > 1}
           playClickHandler={this.playSeason}
           isPlaying={isPlaying}
           reset={this.reset}
@@ -97,24 +149,35 @@ class App extends React.Component {
               <Section title="The Virtual EPL" content={Info} />
             )}
             {!!selectedTeams.length && (
-              <>
-                <Section
-                  title="Eligible Seasons"
-                  content={() => <div className="box is-size-7">{activeSeasons.join(', ')}</div>}
-                />
-                <Section
-                  title="League Table"
-                  content={() => (
-                    <LeagueTable teams={teams} selectedTeams={selectedTeams} results={results} />
-                  )}
-                />
-              </>
+              <Section
+                title="Eligible Seasons"
+                content={() => <div className="box is-size-7">{activeSeasons.join(', ')}</div>}
+              />
+            )}
+            {selectedTeams.length > 1 && (
+              <Section
+                title="League Table"
+                content={() => (
+                  <LeagueTable
+                    teams={teams}
+                    selectedTeams={selectedTeams}
+                    iterations={iterations}
+                    isWorking={isWorking}
+                    playSeries={this.playSeries}
+                    results={results}
+                  />
+                )}
+              />
             )}
             {!!fixtures.length && (
               <Section
                 title="Fixtures"
                 content={() => (
-                  <Fixtures fixtures={fixtures} results={results} />
+                  <Fixtures
+                    iterations={iterations}
+                    fixtures={fixtures}
+                    results={results}
+                  />
                 )}
               />
             )}

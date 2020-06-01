@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/vepl/static/css/main.3f0c82fc.chunk.css",
-    "main.js": "/vepl/static/js/main.04290afd.chunk.js",
-    "main.js.map": "/vepl/static/js/main.04290afd.chunk.js.map",
+    "main.js": "/vepl/static/js/main.0abf49d0.chunk.js",
+    "main.js.map": "/vepl/static/js/main.0abf49d0.chunk.js.map",
     "runtime-main.js": "/vepl/static/js/runtime-main.cef976a6.js",
     "runtime-main.js.map": "/vepl/static/js/runtime-main.cef976a6.js.map",
     "static/js/2.d13de8b7.chunk.js": "/vepl/static/js/2.d13de8b7.chunk.js",
     "static/js/2.d13de8b7.chunk.js.map": "/vepl/static/js/2.d13de8b7.chunk.js.map",
     "index.html": "/vepl/index.html",
-    "precache-manifest.3942e3d812a7b5c3a56385c5a7f13faa.js": "/vepl/precache-manifest.3942e3d812a7b5c3a56385c5a7f13faa.js",
+    "precache-manifest.a350f28b960b2020c7ac6c6ae5fb676d.js": "/vepl/precache-manifest.a350f28b960b2020c7ac6c6ae5fb676d.js",
     "service-worker.js": "/vepl/service-worker.js",
     "static/css/main.3f0c82fc.chunk.css.map": "/vepl/static/css/main.3f0c82fc.chunk.css.map",
     "static/js/2.d13de8b7.chunk.js.LICENSE.txt": "/vepl/static/js/2.d13de8b7.chunk.js.LICENSE.txt",
@@ -67,6 +67,6 @@
     "static/js/runtime-main.cef976a6.js",
     "static/js/2.d13de8b7.chunk.js",
     "static/css/main.3f0c82fc.chunk.css",
-    "static/js/main.04290afd.chunk.js"
+    "static/js/main.0abf49d0.chunk.js"
   ]
 }

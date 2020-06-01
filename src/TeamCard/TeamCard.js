@@ -9,13 +9,13 @@ const TeamCard = ({ team, activeSeasons, click, selected }) => {
     .map((season, i) => {
       let active = activeSeasons.includes(season);
       disable = active ? false : disable;
-      active = active
-        ? 'has-text-danger'
-        : 'has-text-grey';
+      active = !activeSeasons.length || active
+        ? 'has-text-grey'
+        : 'has-text-grey-lighter';
       return (
-        <span key={`${name}-${season}`}>
-          {i > 0 ? ', ' : ''}
-          <span className={active}>{season}</span>
+        <span key={`${name}-${season}`} className={active}>
+          {season}
+          {i < seasons.length - 1 ? ', ' : ''}
         </span>
       );
     });

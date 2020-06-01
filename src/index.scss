@@ -1,5 +1,10 @@
 $navbar-breakpoint: 0;
+
 @import 'bulma/bulma.sass';
+
+.tabs .button  {
+  border-radius: 0;
+}
 
 .App {
     background: $info;

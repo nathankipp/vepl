@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import {
   computeGD,
@@ -18,7 +19,7 @@ function computeStandings(results, teams) {
 
   Object.keys(results).forEach(homeAway => {
     const home = homeAway.substr(0,3);
-    const away = homeAway.substr(3);
+    const away = homeAway.substr(3,3);
     const index = {
       home: findIndex(home),
       away: findIndex(away),
@@ -55,8 +56,9 @@ function computeStandings(results, teams) {
   return rankTeams(standings);
 }
 
-const LeagueTable = ({ teams, selectedTeams, results }) => {
-  const standings = Object.keys(results).length
+const LeagueTable = ({ teams, selectedTeams, iterations, isWorking, playSeries, results }) => {
+  const hasPlayed = !!Object.keys(results).length;
+  const standings = hasPlayed
     ? computeStandings(results, teams)
     : selectedTeams.map(team => ({
         name: teams.find(({ shortName }) => shortName === team).name,
@@ -71,6 +73,23 @@ const LeagueTable = ({ teams, selectedTeams, results }) => {
     ));
   return (
     <div className="box">
+      <div className="tabs is-toggle is-fullwidth">
+        <ul>
+          {['One Season', 'x 10', 'x 100'].map((iteration, i) => {
+            const value = 10**i;
+            const classes = isWorking ? ' is-loading' : '';
+            const onClick = !isWorking
+              ? () => playSeries(value)
+              : () => {}
+            return (
+              <li key={iteration} className={iterations === value ? 'is-active' : ''}>
+                <a className={`button${classes}`} onClick={onClick}>{iteration}</a>
+              </li>
+            );
+          }
+        )}
+        </ul>
+      </div>
       <table className="table is-fullwidth is-narrow">
         <thead>
           <tr>

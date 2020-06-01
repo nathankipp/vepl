@@ -27,13 +27,6 @@ const NavBar = ({ canPlay, playClickHandler, isPlaying, reset }) => (
               <strong>Play it!</strong>
             </button>
             <button
-              className={`button is-warning${isPlaying ? ' is-loading' : ''}`}
-              disabled={!canPlay}
-              onClick={() => playClickHandler(true)}
-            >
-              <strong>Slowly</strong>
-            </button>
-            <button
               className={`button is-danger${isPlaying ? ' is-loading' : ''}`}
               disabled={!canPlay}
               onClick={reset}
