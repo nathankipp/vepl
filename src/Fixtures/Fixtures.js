@@ -53,8 +53,6 @@ const Fixtures = ({ iterations, fixtures, results }) => {
             }
           </ul>
         </nav>
-      </div>
-      <div>
         <div>
           {week.map(fixture => {
             const homeAway = `${fixture.join('')}.${page-1}`;

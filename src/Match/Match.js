@@ -17,7 +17,7 @@ const Match = ({
   results: { result, season } = {}
 }) => (
   <>
-    <div className="Match box is-hidden-tablet">
+    <div className="Match is-hidden-tablet">
       <div className="small">
         <img src={badges[home]} alt={home} />
         <span>v</span>
@@ -25,7 +25,7 @@ const Match = ({
       </div>
       <Result result={result} season={season} />
     </div>
-    <div className="Match box has-text-dark is-hidden-mobile">
+    <div className="Match has-text-dark is-hidden-mobile">
       <span><img src={badges[home]} alt={home} /></span>
       <span className="is-size-5">{home}</span>
       <span>
