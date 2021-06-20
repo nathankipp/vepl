@@ -20,7 +20,7 @@ const TeamCard = ({ team, activeSeasons, click, selected }) => {
       );
     });
   disable = activeSeasons.length && disable ? ' disabled' : '';
-  return (
+  return disable ? null : (
     <div
      className={`Team-Card${select}${disable} box has-text-dark`}
      onClick={() => click(team.shortName)}
