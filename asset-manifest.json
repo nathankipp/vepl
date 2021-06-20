@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/vepl/static/css/main.feff159f.chunk.css",
-    "main.js": "/vepl/static/js/main.df8ab674.chunk.js",
-    "main.js.map": "/vepl/static/js/main.df8ab674.chunk.js.map",
+    "main.js": "/vepl/static/js/main.e641ccc5.chunk.js",
+    "main.js.map": "/vepl/static/js/main.e641ccc5.chunk.js.map",
     "runtime-main.js": "/vepl/static/js/runtime-main.873c021e.js",
     "runtime-main.js.map": "/vepl/static/js/runtime-main.873c021e.js.map",
     "static/js/2.a04ea184.chunk.js": "/vepl/static/js/2.a04ea184.chunk.js",
@@ -65,6 +65,6 @@
     "static/js/runtime-main.873c021e.js",
     "static/js/2.a04ea184.chunk.js",
     "static/css/main.feff159f.chunk.css",
-    "static/js/main.df8ab674.chunk.js"
+    "static/js/main.e641ccc5.chunk.js"
   ]
 }
