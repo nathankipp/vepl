@@ -48,7 +48,7 @@ import WHU from './WHU.png';
 import WIG from './WIG.png';
 import WOL from './WOL.png';
 
-export default {
+const badges = {
   ARS,
   AST,
   BAR,
@@ -99,3 +99,5 @@ export default {
   WIG,
   WOL,
 };
+
+export default badges;
